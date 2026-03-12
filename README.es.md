@@ -34,7 +34,7 @@
 
 > **LibreFang es una bifurcación mantenida por la comunidad de [`RightNow-AI/openfang`](https://github.com/RightNow-AI/openfang).**
 >
-> La base de código, binarios, nombres de crates y rutas de configuración permanecen como `openfang` durante el período de transición por compatibilidad. LibreFang adopta una gobernanza de proyecto diferente: aceptamos activamente contribuciones de la comunidad, las revisamos públicamente, fusionamos el trabajo aceptado a través del flujo normal de GitHub, y mantenemos la atribución de los colaboradores cuando adaptamos código.
+> La base de código, binarios, nombres de crates y rutas de configuración usan `librefang`. LibreFang adopta una gobernanza de proyecto diferente: aceptamos activamente contribuciones de la comunidad, las revisamos públicamente, fusionamos el trabajo aceptado a través del flujo normal de GitHub, y mantenemos la atribución de los colaboradores cuando adaptamos código.
 
 > **Estado de la comunidad:** Se aceptan con gusto issues, PRs, revisores y mantenedores.
 

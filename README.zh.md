@@ -34,7 +34,7 @@
 
 > **LibreFang 是 [`RightNow-AI/openfang`](https://github.com/RightNow-AI/openfang) 的社区维护分支。**
 >
-> 代码库、二进制文件、crate 名称和配置路径在过渡期间仍使用 `openfang` 以保持兼容性。LibreFang 采用不同的项目治理方式：我们积极接受社区贡献，在公开场合审查它们，通过正常的 GitHub 流程合并被接受的工作，并在改编代码时保留贡献者署名。
+> 代码库、二进制文件、crate 名称和配置路径已使用 `librefang`。LibreFang 采用不同的项目治理方式：我们积极接受社区贡献，在公开场合审查它们，通过正常的 GitHub 流程合并被接受的工作，并在改编代码时保留贡献者署名。
 
 > **社区状态：** 欢迎提交 issue、PR、reviewer 和维护者。
 

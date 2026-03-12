@@ -43,7 +43,7 @@
 
 > **LibreFang is a community-maintained fork of [`RightNow-AI/openfang`](https://github.com/RightNow-AI/openfang).**
 >
-> The codebase, binary, crate names, and config paths still use `openfang` for compatibility during the transition. LibreFang is taking a different path on project governance: we actively accept community contributions, review them in public, merge accepted work through normal GitHub flow, and preserve contributor credit when code is adapted.
+> The codebase, binary, crate names, and config paths use `librefang`. LibreFang is taking a different path on project governance: we actively accept community contributions, review them in public, merge accepted work through normal GitHub flow, and preserve contributor credit when code is adapted.
 
 > **Community status:** issues, pull requests, reviewers, and maintainers are actively welcome.
 
