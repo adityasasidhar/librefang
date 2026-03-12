@@ -123,16 +123,13 @@ jobs:
             --only-verified \
             --exclude-paths=<(echo -e "target/\n.git/\nCargo.lock")
 
-  # ── Installer smoke test (verify install scripts from Vercel) ──────────────
+  # ── Installer smoke test (verify repo install scripts parse) ───────────────
   install-smoke:
     name: Install Script Smoke Test
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch and syntax-check shell installer
-        run: |
-          curl -fsSL https://openfang.sh/install -o /tmp/install.sh
-          bash -n /tmp/install.sh
-      - name: Fetch and syntax-check PowerShell installer
-        run: |
-          curl -fsSL https://openfang.sh/install.ps1 -o /tmp/install.ps1
-          pwsh -NoProfile -Command "Get-Content /tmp/install.ps1 | Out-Null" 2>&1 || true
+      - uses: actions/checkout@v4
+      - name: Syntax-check shell installer
+        run: bash -n scripts/install.sh
+      - name: Parse PowerShell installer
+        run: pwsh -NoProfile -Command "Get-Content scripts/install.ps1 | Out-Null"

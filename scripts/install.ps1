@@ -1,21 +1,21 @@
-# OpenFang installer for Windows
-# Usage: iwr -useb https://openfang.sh/install.ps1 | iex
-#   or:  powershell -c "irm https://openfang.sh/install.ps1 | iex"
+# LibreFang installer for Windows
+# Usage: iwr -useb https://librefang.ai/install.ps1 | iex
+#   or:  powershell -c "irm https://librefang.ai/install.ps1 | iex"
 #
 # Flags (via environment variables):
-#   $env:OPENFANG_INSTALL_DIR = custom install directory
-#   $env:OPENFANG_VERSION     = specific version tag (e.g. "v0.1.0")
+#   $env:LIBREFANG_INSTALL_DIR / $env:OPENFANG_INSTALL_DIR = custom install directory
+#   $env:LIBREFANG_VERSION / $env:OPENFANG_VERSION         = specific version tag (e.g. "v0.1.0")
 
 $ErrorActionPreference = 'Stop'
 
-$Repo = "RightNow-AI/openfang"
+$Repo = "librefang/librefang"
 $DefaultInstallDir = Join-Path $env:USERPROFILE ".openfang\bin"
-$InstallDir = if ($env:OPENFANG_INSTALL_DIR) { $env:OPENFANG_INSTALL_DIR } else { $DefaultInstallDir }
+$InstallDir = if ($env:LIBREFANG_INSTALL_DIR) { $env:LIBREFANG_INSTALL_DIR } elseif ($env:OPENFANG_INSTALL_DIR) { $env:OPENFANG_INSTALL_DIR } else { $DefaultInstallDir }
 
 function Write-Banner {
     Write-Host ""
-    Write-Host "  OpenFang Installer" -ForegroundColor Cyan
-    Write-Host "  ==================" -ForegroundColor Cyan
+    Write-Host "  LibreFang Installer" -ForegroundColor Cyan
+    Write-Host "  ===================" -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -53,13 +53,17 @@ function Get-Architecture {
         { $_ -in "ARM64", "AARCH64", "ARM" }     { return "aarch64" }
         default {
             Write-Host "  Unsupported architecture: $arch (detection may have failed)" -ForegroundColor Red
-            Write-Host "  Try: cargo install --git https://github.com/RightNow-AI/openfang openfang-cli" -ForegroundColor Yellow
+            Write-Host "  Try: cargo install --git https://github.com/$Repo openfang-cli" -ForegroundColor Yellow
             exit 1
         }
     }
 }
 
 function Get-LatestVersion {
+    if ($env:LIBREFANG_VERSION) {
+        return $env:LIBREFANG_VERSION
+    }
+
     if ($env:OPENFANG_VERSION) {
         return $env:OPENFANG_VERSION
     }
@@ -70,14 +74,14 @@ function Get-LatestVersion {
         return $release.tag_name
     }
     catch {
-        Write-Host "  Could not determine latest version." -ForegroundColor Red
+        Write-Host "  No GitHub Releases are published for $Repo yet." -ForegroundColor Red
         Write-Host "  Install from source instead:" -ForegroundColor Yellow
         Write-Host "    cargo install --git https://github.com/$Repo openfang-cli"
         exit 1
     }
 }
 
-function Install-OpenFang {
+function Install-LibreFang {
     Write-Banner
 
     $arch = Get-Architecture
@@ -87,7 +91,7 @@ function Install-OpenFang {
     $url = "https://github.com/$Repo/releases/download/$version/$archive"
     $checksumUrl = "$url.sha256"
 
-    Write-Host "  Installing OpenFang $version for $target..."
+    Write-Host "  Installing LibreFang $version for $target..."
 
     # Create install directory
     if (-not (Test-Path $InstallDir)) {
@@ -171,11 +175,11 @@ function Install-OpenFang {
         try {
             $versionOutput = & $installedExe --version 2>&1
             Write-Host ""
-            Write-Host "  OpenFang installed successfully! ($versionOutput)" -ForegroundColor Green
+            Write-Host "  LibreFang installed successfully! ($versionOutput)" -ForegroundColor Green
         }
         catch {
             Write-Host ""
-            Write-Host "  OpenFang binary installed to $installedExe" -ForegroundColor Green
+            Write-Host "  LibreFang binary installed to $installedExe" -ForegroundColor Green
         }
     }
 
@@ -188,4 +192,4 @@ function Install-OpenFang {
     Write-Host ""
 }
 
-Install-OpenFang
+Install-LibreFang

@@ -113,22 +113,22 @@ convert icon.svg -resize 256x256 -define icon:auto-resize=256,128,64,48,32,16 ic
 
 ---
 
-## 5. Set Up the `openfang.sh` Domain
+## 5. Set Up the `librefang.ai` Install Domain
 
-**Status:** BLOCKING for install scripts — users run `curl -sSf https://openfang.sh | sh`.
+**Status:** BLOCKING for install scripts — users should run `curl -fsSL https://librefang.ai/install.sh | sh`.
 
 Options:
-- **GitHub Pages**: Point `openfang.sh` to a GitHub Pages site that redirects `/` to `scripts/install.sh` and `/install.ps1` to `scripts/install.ps1` from the repo's latest release.
+- **GitHub Pages**: Point `librefang.ai` to a GitHub Pages site that redirects `/install.sh` to `scripts/install.sh` and `/install.ps1` to `scripts/install.ps1` from the repo's latest release.
 - **Cloudflare Workers / Vercel**: Serve the install scripts with proper `Content-Type: text/plain` headers.
-- **Raw GitHub redirect**: Use `openfang.sh` as a CNAME to `raw.githubusercontent.com/RightNow-AI/openfang/main/scripts/install.sh` (less reliable).
+- **Raw GitHub redirect**: Use `librefang.ai` to route to the repo-hosted installer artifacts if needed (less reliable).
 
 The install scripts reference:
-- `https://openfang.sh` → serves `scripts/install.sh`
-- `https://openfang.sh/install.ps1` → serves `scripts/install.ps1`
+- `https://librefang.ai/install.sh` → serves `scripts/install.sh`
+- `https://librefang.ai/install.ps1` → serves `scripts/install.ps1`
 
 Until the domain is set up, users can install via:
 ```bash
-curl -sSf https://raw.githubusercontent.com/RightNow-AI/openfang/main/scripts/install.sh | sh
+curl -fsSL https://librefang.ai/install.sh | sh
 ```
 
 ---
@@ -237,7 +237,7 @@ After the release workflow completes (~15-30 min):
 - [ ] SHA256 checksum files present for each CLI archive
 
 ### Auto-Updater Manifest
-Visit: `https://github.com/RightNow-AI/openfang/releases/latest/download/latest.json`
+Visit: `https://github.com/librefang/librefang/releases/latest/download/latest.json`
 
 - [ ] JSON is valid
 - [ ] Contains `signature` fields (not empty strings)
@@ -246,11 +246,11 @@ Visit: `https://github.com/RightNow-AI/openfang/releases/latest/download/latest.
 
 ### Docker Image
 ```bash
-docker pull ghcr.io/RightNow-AI/openfang:latest
-docker pull ghcr.io/RightNow-AI/openfang:0.1.0
+docker pull ghcr.io/librefang/librefang:latest
+docker pull ghcr.io/librefang/librefang:0.1.0
 
 # Verify both architectures
-docker run --rm ghcr.io/RightNow-AI/openfang:latest --version
+docker run --rm ghcr.io/librefang/librefang:latest --version
 ```
 
 ### Desktop App Auto-Update (test with v0.1.1)
@@ -266,11 +266,11 @@ docker run --rm ghcr.io/RightNow-AI/openfang:latest --version
 ### Install Scripts
 ```bash
 # Linux/macOS
-curl -sSf https://openfang.sh | sh
+curl -fsSL https://librefang.ai/install.sh | sh
 openfang --version  # Should print v0.1.0
 
 # Windows PowerShell
-irm https://openfang.sh/install.ps1 | iex
+irm https://librefang.ai/install.ps1 | iex
 openfang --version
 ```
 

@@ -169,17 +169,17 @@ These close the gaps that would make users pick OpenClaw over OpenFang.
 
 ### 2.4 Install Script Deployment
 
-**Problem:** `openfang.sh` domain isn't set up. Users can't do `curl -sSf https://openfang.sh | sh`.
+**Problem:** `librefang.ai` install endpoints need to be wired. Users should be able to do `curl -fsSL https://librefang.ai/install.sh | sh`.
 
 **What to do:**
-1. Set up GitHub Pages or Cloudflare Worker for openfang.sh
+1. Set up GitHub Pages or Cloudflare Worker for `librefang.ai`
 2. Serve `scripts/install.sh` at root
 3. Serve `scripts/install.ps1` at `/install.ps1`
 4. Test on fresh Linux, macOS, and Windows machines
 
 **Done when:**
-- `curl -sSf https://openfang.sh | sh` installs the latest release
-- `irm https://openfang.sh/install.ps1 | iex` works on Windows PowerShell
+- `curl -fsSL https://librefang.ai/install.sh | sh` installs the latest release
+- `irm https://librefang.ai/install.ps1 | iex` works on Windows PowerShell
 
 ---
 
@@ -383,7 +383,7 @@ These are features where OpenFang can leapfrog OpenClaw.
 
 ### 4.5 Final Release -- READY
 
-**Status: ALL CODE COMPLETE** — All 18 code items done. 1751 tests passing. Production audit completed: 2 critical bugs fixed (API delete alias, config/set route), CSP hardened (Tauri + middleware), Tauri signing key installed. Remaining for release: tag v0.1.0, build release artifacts, set up openfang.sh domain.
+**Status: ALL CODE COMPLETE** — All 18 code items done. 1751 tests passing. Production audit completed: 2 critical bugs fixed (API delete alias, config/set route), CSP hardened (Tauri + middleware), Tauri signing key installed. Remaining for release: tag v0.1.0, build release artifacts, and finish the `librefang.ai` install endpoints.
 
 1. Complete items from `production-checklist.md` (keygen DONE, secrets, icons DONE, domain pending)
 2. Tag `v0.1.0`
@@ -433,7 +433,7 @@ Sprint 2: 4/5 COMPLETE
   2.1 Browser screenshots .......... DONE
   2.2 Chat search .................. DONE
   2.3 Skill marketplace ............ DONE
-  2.4 Install script domain ........ PENDING (infra: set up openfang.sh domain)
+  2.4 Install script domain ........ PENDING (infra: wire librefang.ai install endpoints)
   2.5 Wizard end-to-end ............ DONE
 
 Sprint 3: COMPLETE

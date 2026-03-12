@@ -1,12 +1,12 @@
-# NOTE: The GHCR image (ghcr.io/rightnow-ai/openfang) is not yet public.
+# NOTE: The GHCR image (ghcr.io/librefang/librefang) is not yet published.
 # For now, build from source using `docker compose up --build`.
-# See: https://github.com/RightNow-AI/openfang/issues/12
+# See: https://github.com/librefang/librefang/issues
 
 version: "3.8"
 services:
   openfang:
     build: .
-    # image: ghcr.io/rightnow-ai/openfang:latest  # Uncomment when GHCR is public
+    # image: ghcr.io/librefang/librefang:latest  # Uncomment when GHCR is published
     ports:
       - "4200:4200"
     volumes:

@@ -1,6 +1,8 @@
-# Getting Started with OpenFang
+# Getting Started with LibreFang
 
-This guide walks you through installing OpenFang, configuring your first LLM provider, spawning an agent, and chatting with it.
+This guide walks you through installing LibreFang, configuring your first LLM provider, spawning an agent, and chatting with it.
+
+Project website: [https://librefang.ai/](https://librefang.ai/)
 
 ## Table of Contents
 
@@ -16,68 +18,56 @@ This guide walks you through installing OpenFang, configuring your first LLM pro
 
 ## Installation
 
-### Option 1: Desktop App (Windows / macOS / Linux)
+### Option 1: Cargo Install (Any Platform)
 
-Download the installer for your platform from the [latest release](https://github.com/RightNow-AI/openfang/releases/latest):
-
-| Platform | File |
-|---|---|
-| Windows | `.msi` installer |
-| macOS | `.dmg` disk image |
-| Linux | `.AppImage` or `.deb` |
-
-The desktop app includes the full OpenFang system with a native window, system tray, auto-updates, and OS notifications. Updates are installed automatically in the background.
-
-### Option 2: Shell Installer (Linux / macOS)
+LibreFang does not publish GitHub Releases yet. The current recommended install path is:
 
 ```bash
-curl -sSf https://openfang.sh | sh
-```
-
-This downloads the latest CLI binary and installs it to `~/.openfang/bin/`.
-
-### Option 3: PowerShell Installer (Windows)
-
-```powershell
-irm https://openfang.sh/install.ps1 | iex
-```
-
-Downloads the latest CLI binary, verifies its SHA256 checksum, and adds it to your user PATH.
-
-### Option 4: Cargo Install (Any Platform)
-
-Requires Rust 1.75+:
-
-```bash
-cargo install --git https://github.com/RightNow-AI/openfang openfang-cli
+cargo install --git https://github.com/librefang/librefang openfang-cli
 ```
 
 Or build from source:
 
 ```bash
-git clone https://github.com/RightNow-AI/openfang.git
-cd openfang
+git clone https://github.com/librefang/librefang.git
+cd librefang
 cargo install --path crates/openfang-cli
 ```
 
-### Option 5: Docker
+### Option 2: Shell Installer (Linux / macOS, for future releases)
 
 ```bash
-docker pull ghcr.io/RightNow-AI/openfang:latest
+curl -fsSL https://librefang.ai/install.sh | sh
+```
+
+Use this once LibreFang starts publishing GitHub Releases. The script installs the CLI binary to `~/.openfang/bin/`.
+
+### Option 3: PowerShell Installer (Windows, for future releases)
+
+```powershell
+irm https://librefang.ai/install.ps1 | iex
+```
+
+Use this once LibreFang starts publishing GitHub Releases. The script verifies SHA256 checksums and adds the CLI to your user PATH.
+
+### Option 4: Docker
+
+```bash
+docker pull ghcr.io/librefang/librefang:latest
 
 docker run -d \
   --name openfang \
   -p 4200:4200 \
   -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
   -v openfang-data:/data \
-  ghcr.io/RightNow-AI/openfang:latest
+  ghcr.io/librefang/librefang:latest
 ```
 
 Or use Docker Compose:
 
 ```bash
-git clone https://github.com/RightNow-AI/openfang.git
-cd openfang
+git clone https://github.com/librefang/librefang.git
+cd librefang
 # Set your API keys in environment or .env file
 docker compose up -d
 ```
@@ -111,7 +101,7 @@ This creates:
 
 ### Set Up an API Key
 
-OpenFang needs at least one LLM provider API key. Set it as an environment variable:
+LibreFang needs at least one LLM provider API key. Set it as an environment variable:
 
 ```bash
 # Anthropic (Claude)

@@ -1,9 +1,9 @@
-# OpenFang Security Architecture
+# LibreFang Security Architecture
 
-> **Security Contact:** jaber@rightnowai.co — Report vulnerabilities via email. We respond within 48 hours.
+> **Security Contact:** Use GitHub private vulnerability reporting at `https://github.com/librefang/librefang/security/advisories/new`.
 
 This document provides a comprehensive technical reference for every security
-system in the OpenFang Agent Operating System.  All struct names, function
+system in the LibreFang Agent Operating System.  All struct names, function
 signatures, constant values, and algorithm descriptions are drawn directly from
 the source code.
 
@@ -35,7 +35,7 @@ the source code.
 
 ## 1. Security Overview
 
-OpenFang implements **defense-in-depth** security.  No single mechanism is
+LibreFang implements **defense-in-depth** security.  No single mechanism is
 trusted to be the sole protector; instead, 16 independent systems form
 overlapping layers so that a failure in any one layer is caught by others.
 

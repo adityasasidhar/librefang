@@ -1,6 +1,8 @@
-# Contributing to OpenFang
+# Contributing to LibreFang
 
-Thank you for your interest in contributing to OpenFang. This guide covers everything you need to get started, from setting up your development environment to submitting pull requests.
+Thank you for your interest in contributing to LibreFang. This guide covers everything you need to get started, from setting up your development environment to submitting pull requests.
+
+LibreFang is a community-maintained fork. For compatibility, the binary name, crate names, and most internal identifiers still use `openfang`.
 
 ## Table of Contents
 
@@ -28,8 +30,8 @@ Thank you for your interest in contributing to OpenFang. This guide covers every
 ### Clone and Build
 
 ```bash
-git clone https://github.com/RightNow-AI/openfang.git
-cd openfang
+git clone https://github.com/librefang/librefang.git
+cd librefang
 cargo build
 ```
 
@@ -117,7 +119,7 @@ cargo run -- doctor
 
 ## Architecture Overview
 
-OpenFang is organized as a Cargo workspace with 14 crates:
+LibreFang is organized as a Cargo workspace with 14 crates:
 
 | Crate | Role |
 |-------|------|
@@ -330,7 +332,7 @@ tools = ["my_tool"]
 
 5. **One concern per PR**: Keep PRs focused. A single PR should address one feature, one bug fix, or one refactor -- not all three.
 
-6. **Review process**: At least one maintainer must approve before merge. Address review feedback promptly.
+6. **Review process**: At least one maintainer must approve before merge. Maintainers aim to give an initial response within 7 days and preserve contributor attribution when adapting accepted work. See `GOVERNANCE.md` for project policy.
 
 7. **CI must pass**: All automated checks must be green before merge.
 
@@ -348,7 +350,7 @@ Refactor capability manager to use DashMap
 
 ## Code of Conduct
 
-This project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/). By participating, you agree to uphold a welcoming, inclusive, and harassment-free environment for everyone.
+This project follows the local [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). By participating, you agree to uphold a welcoming, inclusive, and harassment-free environment for everyone.
 
 Please report unacceptable behavior to the maintainers.
 
@@ -356,6 +358,6 @@ Please report unacceptable behavior to the maintainers.
 
 ## Questions?
 
-- Open a [GitHub Discussion](https://github.com/RightNow-AI/openfang/discussions) for questions.
-- Open a [GitHub Issue](https://github.com/RightNow-AI/openfang/issues) for bugs or feature requests.
+- Open a [GitHub Issue](https://github.com/librefang/librefang/issues) for bugs, feature requests, or contributor questions.
 - Check the [docs/](docs/) directory for detailed guides on specific topics.
+- Read [GOVERNANCE.md](GOVERNANCE.md) for decision-making, maintainer expectations, and attribution rules.

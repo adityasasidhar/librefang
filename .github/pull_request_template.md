@@ -6,6 +6,10 @@
 
 <!-- Brief list of what changed. -->
 
+## Attribution
+
+- [ ] This PR preserves author attribution for any adapted prior work (`Co-authored-by`, commit preservation, or explicit credit in the PR body)
+
 ## Testing
 
 - [ ] `cargo clippy --workspace --all-targets -- -D warnings` passes

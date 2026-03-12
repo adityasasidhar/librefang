@@ -4,17 +4,19 @@
 
 | Version | Supported          |
 |---------|--------------------|
-| 0.3.x   | :white_check_mark: |
+| `main`  | :white_check_mark: |
+| Latest LibreFang release | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in OpenFang, please report it responsibly.
+If you discover a security vulnerability in LibreFang, please report it privately.
 
 **Do NOT open a public GitHub issue for security vulnerabilities.**
 
 ### How to Report
 
-1. Email: **jaber@rightnowai.co**
+1. Use GitHub's private vulnerability reporting flow:
+   `https://github.com/librefang/librefang/security/advisories/new`
 2. Include:
    - Description of the vulnerability
    - Steps to reproduce
@@ -45,7 +47,7 @@ The following are in scope for security reports:
 
 ## Security Architecture
 
-OpenFang implements defense-in-depth with the following security controls:
+LibreFang implements defense-in-depth with the following security controls:
 
 ### Access Control
 - **Capability-based permissions**: Agents only access resources explicitly granted

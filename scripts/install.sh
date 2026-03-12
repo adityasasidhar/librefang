@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# OpenFang installer — works on Linux, macOS, WSL
-# Usage: curl -sSf https://openfang.sh | sh
+# LibreFang installer — works on Linux, macOS, WSL
+# Usage: curl -fsSL https://librefang.ai/install.sh | sh
 #
 # Environment variables:
-#   OPENFANG_INSTALL_DIR  — custom install directory (default: ~/.openfang/bin)
-#   OPENFANG_VERSION      — install a specific version tag (default: latest)
+#   LIBREFANG_INSTALL_DIR / OPENFANG_INSTALL_DIR  — custom install directory (default: ~/.openfang/bin)
+#   LIBREFANG_VERSION / OPENFANG_VERSION          — install a specific version tag (default: latest)
 
 set -euo pipefail
 
-REPO="RightNow-AI/openfang"
-INSTALL_DIR="${OPENFANG_INSTALL_DIR:-$HOME/.openfang/bin}"
+REPO="librefang/librefang"
+INSTALL_DIR="${LIBREFANG_INSTALL_DIR:-${OPENFANG_INSTALL_DIR:-$HOME/.openfang/bin}}"
 
 detect_platform() {
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -25,7 +25,7 @@ detect_platform() {
         mingw*|msys*|cygwin*)
             echo ""
             echo "  For Windows, use PowerShell instead:"
-            echo "    irm https://openfang.sh/install.ps1 | iex"
+            echo "    irm https://librefang.ai/install.ps1 | iex"
             echo ""
             echo "  Or download the .msi installer from:"
             echo "    https://github.com/$REPO/releases/latest"
@@ -42,21 +42,22 @@ install() {
     detect_platform
 
     echo ""
-    echo "  OpenFang Installer"
-    echo "  =================="
+    echo "  LibreFang Installer"
+    echo "  ==================="
     echo ""
 
     # Get latest version
-    if [ -n "${OPENFANG_VERSION:-}" ]; then
-        VERSION="$OPENFANG_VERSION"
+    REQUESTED_VERSION="${LIBREFANG_VERSION:-${OPENFANG_VERSION:-}}"
+    if [ -n "$REQUESTED_VERSION" ]; then
+        VERSION="$REQUESTED_VERSION"
         echo "  Using specified version: $VERSION"
     else
         echo "  Fetching latest release..."
-        VERSION=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name"' | head -1 | cut -d '"' -f 4)
+        VERSION=$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" 2>/dev/null | grep '"tag_name"' | head -1 | cut -d '"' -f 4 || true)
     fi
 
     if [ -z "$VERSION" ]; then
-        echo "  Could not determine latest version."
+        echo "  No GitHub Releases are published for $REPO yet."
         echo "  Install from source instead:"
         echo "    cargo install --git https://github.com/$REPO openfang-cli"
         exit 1
@@ -65,7 +66,7 @@ install() {
     URL="https://github.com/$REPO/releases/download/$VERSION/openfang-$PLATFORM.tar.gz"
     CHECKSUM_URL="$URL.sha256"
 
-    echo "  Installing OpenFang $VERSION for $PLATFORM..."
+    echo "  Installing LibreFang $VERSION for $PLATFORM..."
     mkdir -p "$INSTALL_DIR"
 
     # Download to temp
@@ -178,10 +179,10 @@ install() {
     if "$INSTALL_DIR/openfang" --version >/dev/null 2>&1; then
         INSTALLED_VERSION=$("$INSTALL_DIR/openfang" --version 2>/dev/null || echo "$VERSION")
         echo ""
-        echo "  OpenFang installed successfully! ($INSTALLED_VERSION)"
+        echo "  LibreFang installed successfully! ($INSTALLED_VERSION)"
     else
         echo ""
-        echo "  OpenFang binary installed to $INSTALL_DIR/openfang"
+        echo "  LibreFang binary installed to $INSTALL_DIR/openfang"
     fi
 
     echo ""
