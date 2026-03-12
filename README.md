@@ -20,7 +20,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/language-Rust-orange?style=flat-square" alt="Rust" />
-  <img src="https://img.shields.io/badge/license-Apache--2.0%20%7C%20MIT-blue?style=flat-square" alt="Apache-2.0 OR MIT" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/community-maintained-brightgreen?style=flat-square" alt="Community Maintained" />
   <img src="https://img.shields.io/badge/cli-librefang-informational?style=flat-square" alt="CLI librefang" />
   <img src="https://img.shields.io/github/stars/librefang/librefang?style=flat-square" alt="Stars" />
@@ -230,7 +230,7 @@ AutoGen    ███████████░░░░░░░░░░░░
 | **Audit Trail** | **Merkle hash-chain** | Logs | Logs | Tracing | Logs | Checkpoints |
 | **Cold Start** | **<200ms** | ~6s | ~10ms | ~3s | ~4s | ~2.5s |
 | **Install Size** | **~32 MB** | ~500 MB | ~8.8 MB | ~100 MB | ~200 MB | ~150 MB |
-| **License** | MIT | MIT | MIT | MIT | Apache 2.0 | MIT |
+| **License** | MIT | MIT | MIT | MIT | MIT | MIT |
 
 ---
 
@@ -421,7 +421,7 @@ To report a security vulnerability, follow the private reporting process in [SEC
 
 ## License
 
-Apache-2.0 OR MIT. Keep the original notices intact when redistributing.
+MIT License. See the LICENSE file for details.
 
 ---
 

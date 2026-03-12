@@ -20,7 +20,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/language-Rust-orange?style=flat-square" alt="Rust" />
-  <img src="https://img.shields.io/badge/license-Apache--2.0%20%7C%20MIT-blue?style=flat-square" alt="Apache-2.0 OR MIT" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/community-maintained-brightgreen?style=flat-square" alt="社区维护" />
   <img src="https://img.shields.io/github/stars/librefang/librefang?style=flat-square" alt="Stars" />
   <img src="https://img.shields.io/github/forks/librefang/librefang?style=flat-square" alt="Forks" />
@@ -197,7 +197,7 @@ LibreFang 是 pre-1.0。架构稳固，测试套件全面，安全模型全面�
 
 ## 许可证
 
-Apache-2.0 或 MIT。重新分发时保持原始通知完整。
+MIT 许可证。详见 LICENSE 文件。
 
 ---
 
