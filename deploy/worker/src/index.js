@@ -164,7 +164,7 @@ const HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deploy LibreFang to Fly.io</title>
+  <title>Deploy LibreFang</title>
   <link rel="icon" href="https://raw.githubusercontent.com/librefang/librefang/main/public/assets/logo.png">
   <style>
     :root {
@@ -179,6 +179,7 @@ const HTML = `<!DOCTYPE html>
       --green: #34d399;
       --red: #f87171;
       --orange: #f59e0b;
+      --blue: #60a5fa;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -190,7 +191,7 @@ const HTML = `<!DOCTYPE html>
       justify-content: center;
       padding: 40px 16px;
     }
-    .container { max-width: 520px; width: 100%; }
+    .container { max-width: 680px; width: 100%; }
     .header { text-align: center; margin-bottom: 36px; }
     .logo { width: 64px; height: 64px; border-radius: 16px; margin-bottom: 16px; }
     h1 {
@@ -215,6 +216,83 @@ const HTML = `<!DOCTYPE html>
     .dot-green { background: var(--green); }
     .dot-purple { background: var(--accent); }
     .dot-orange { background: var(--orange); }
+
+    /* Platform grid */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .platform-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+    }
+    .platform-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+    }
+    .platform-card.accent-purple:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
+    .platform-card.accent-green:hover { border-color: var(--green); box-shadow: 0 4px 20px rgba(52, 211, 153, 0.15); }
+    .platform-card.accent-blue:hover { border-color: var(--blue); box-shadow: 0 4px 20px rgba(96, 165, 250, 0.15); }
+    .platform-icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .platform-name { font-weight: 600; font-size: 1rem; margin-bottom: 6px; }
+    .platform-desc { color: var(--dim); font-size: 0.83rem; line-height: 1.4; }
+    .platform-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-recommended { background: rgba(139, 92, 246, 0.2); color: var(--accent); }
+    .badge-easiest { background: rgba(52, 211, 153, 0.2); color: var(--green); }
+    .badge-terraform { background: rgba(96, 165, 250, 0.2); color: var(--blue); }
+    .platform-warning {
+      font-size: 0.75rem;
+      color: var(--orange);
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+    .platform-cmd {
+      font-size: 0.78rem;
+      color: var(--green);
+      background: var(--bg);
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-top: 6px;
+      font-family: monospace;
+      display: inline-block;
+    }
+
+    /* Back button */
+    .back-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      transition: all 0.15s;
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--text); }
+
+    /* Existing card / form styles */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -309,10 +387,11 @@ const HTML = `<!DOCTYPE html>
     @keyframes spin { to { transform: rotate(360deg); } }
     .footer { text-align: center; padding: 24px; color: var(--dim); font-size: 0.8rem; }
     .footer a { color: var(--accent); text-decoration: none; }
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       body { padding: 24px 12px; }
       h1 { font-size: 1.4rem; }
       .card { padding: 20px; }
+      .platform-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -321,7 +400,7 @@ const HTML = `<!DOCTYPE html>
     <div class="header">
       <img src="https://raw.githubusercontent.com/librefang/librefang/main/public/assets/logo.png" alt="LibreFang" class="logo">
       <h1>Deploy LibreFang</h1>
-      <p class="subtitle">Deploy to Fly.io &mdash; free tier, persistent storage, AI ready</p>
+      <p class="subtitle">Choose your platform</p>
       <div class="badge-row">
         <span class="badge"><span class="dot dot-green"></span>Free LLM included</span>
         <span class="badge"><span class="dot dot-purple"></span>No API key needed</span>
@@ -329,49 +408,134 @@ const HTML = `<!DOCTYPE html>
       </div>
     </div>
 
-    <div id="form-section">
-      <div class="free-note">
-        A free LLM (Step 3.5 Flash via OpenRouter) is pre-configured. Your instance works out of the box &mdash; no API keys required.
-      </div>
+    <!-- Platform selection grid -->
+    <div id="platform-selection">
+      <div class="platform-grid">
+        <div class="platform-card accent-purple" onclick="showFlyDeploy()">
+          <span class="platform-badge badge-recommended">Recommended</span>
+          <div class="platform-icon">&#9992;&#65039;</div>
+          <div class="platform-name">Fly.io</div>
+          <div class="platform-desc">Free forever, persistent storage</div>
+        </div>
 
-      <div class="card">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <div class="step-title">Get a Fly.io API Token</div>
-            <div class="step-desc">
-              <a href="https://fly.io/app/sign-up" target="_blank" rel="noopener">Sign up</a> or
-              <a href="https://fly.io/app/sign-in" target="_blank" rel="noopener">log in</a> to Fly.io, then go to
-              <a href="https://fly.io/user/personal_access_tokens" target="_blank" rel="noopener">Personal Access Tokens</a> and create a new token.
+        <a class="platform-card accent-green" href="https://render.com/deploy?repo=https://github.com/librefang/librefang" target="_blank" rel="noopener">
+          <span class="platform-badge badge-easiest">Easiest</span>
+          <div class="platform-icon">&#9881;&#65039;</div>
+          <div class="platform-name">Render</div>
+          <div class="platform-desc">One-click OAuth deploy</div>
+          <div class="platform-warning">Free tier: sleeps after 15 min, no persistent storage</div>
+        </a>
+
+        <a class="platform-card accent-blue" href="https://railway.com/template?template=https://github.com/librefang/librefang" target="_blank" rel="noopener">
+          <div class="platform-icon">&#128646;</div>
+          <div class="platform-name">Railway</div>
+          <div class="platform-desc">Simple deploy with $5 free credit</div>
+        </a>
+
+        <a class="platform-card accent-blue" href="https://github.com/librefang/librefang/tree/main/infra/gcp" target="_blank" rel="noopener">
+          <span class="platform-badge badge-terraform">Terraform</span>
+          <div class="platform-icon">&#9729;&#65039;</div>
+          <div class="platform-name">GCP</div>
+          <div class="platform-desc">Free forever (e2-micro), 30GB storage</div>
+        </a>
+
+        <a class="platform-card accent-blue" href="https://github.com/librefang/librefang#quick-start" target="_blank" rel="noopener">
+          <div class="platform-icon">&#128051;</div>
+          <div class="platform-name">Docker</div>
+          <div class="platform-desc">Self-host anywhere</div>
+          <div class="platform-cmd">docker compose up --build</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Fly.io deploy form (hidden until selected) -->
+    <div id="fly-deploy" style="display:none;">
+      <button class="back-btn" onclick="showPlatforms()">&larr; Back to platforms</button>
+
+      <div id="form-section">
+        <div class="free-note">
+          A free LLM (Step 3.5 Flash via OpenRouter) is pre-configured. Your instance works out of the box &mdash; no API keys required.
+        </div>
+
+        <div class="card">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Get a Fly.io API Token</div>
+              <div class="step-desc">
+                <a href="https://fly.io/app/sign-up" target="_blank" rel="noopener">Sign up</a> or
+                <a href="https://fly.io/app/sign-in" target="_blank" rel="noopener">log in</a> to Fly.io, then go to
+                <a href="https://fly.io/user/personal_access_tokens" target="_blank" rel="noopener">Personal Access Tokens</a> and create a new token.
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Paste and deploy</div>
+              <div class="step-desc">Your token is only sent to the Fly.io API and is never stored on our servers.</div>
             </div>
           </div>
         </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <div class="step-title">Paste and deploy</div>
-            <div class="step-desc">Your token is only sent to the Fly.io API and is never stored on our servers.</div>
+
+        <div class="card">
+          <div class="field">
+            <label>Fly.io API Token <span style="color:var(--red)">*</span></label>
+            <input type="password" id="token" placeholder="fo1_xxxxxxxxxxxx" autocomplete="off" />
           </div>
+
+          <button class="btn" id="deployBtn" onclick="deploy()">Deploy to Fly.io</button>
+
+          <div class="progress" id="progress">
+            <div class="progress-step" id="ps-auth"><span class="icon"></span> Verifying token...</div>
+            <div class="progress-step" id="ps-app"><span class="icon"></span> Creating app...</div>
+            <div class="progress-step" id="ps-net"><span class="icon"></span> Allocating IP addresses...</div>
+            <div class="progress-step" id="ps-vol"><span class="icon"></span> Creating persistent volume...</div>
+            <div class="progress-step" id="ps-machine"><span class="icon"></span> Launching machine with Step 3.5 Flash...</div>
+          </div>
+
+          <div class="error-msg" id="error"></div>
+        </div>
+      </div>
+
+      <div class="result" id="result">
+        <div class="result-success">
+          <h2>Deployed!</h2>
+          <p style="color:var(--dim); margin-bottom: 16px;">
+            Your LibreFang instance is starting up (1-2 min).<br>
+            Free LLM (Step 3.5 Flash) is pre-configured and ready to use.
+          </p>
+          <a class="result-link" id="appLink" href="#" target="_blank">Open Dashboard</a>
+          <a class="result-link secondary" id="flyLink" href="#" target="_blank">Fly.io Console</a>
+          <div class="result-info" id="resultInfo"></div>
         </div>
       </div>
 
       <div class="card">
-        <div class="field">
-          <label>Fly.io API Token <span style="color:var(--red)">*</span></label>
-          <input type="password" id="token" placeholder="fo1_xxxxxxxxxxxx" autocomplete="off" />
-        </div>
-
-        <button class="btn" id="deployBtn" onclick="deploy()">Deploy to Fly.io</button>
-
-        <div class="progress" id="progress">
-          <div class="progress-step" id="ps-auth"><span class="icon"></span> Verifying token...</div>
-          <div class="progress-step" id="ps-app"><span class="icon"></span> Creating app...</div>
-          <div class="progress-step" id="ps-net"><span class="icon"></span> Allocating IP addresses...</div>
-          <div class="progress-step" id="ps-vol"><span class="icon"></span> Creating persistent volume...</div>
-          <div class="progress-step" id="ps-machine"><span class="icon"></span> Launching machine with Step 3.5 Flash...</div>
-        </div>
-
-        <div class="error-msg" id="error"></div>
+        <div style="font-weight:600;margin-bottom:12px;">Troubleshooting</div>
+        <details style="margin-bottom:8px;">
+          <summary style="color:var(--dim);font-size:0.85rem;cursor:pointer;">Cannot create Personal Access Token (SSO error)</summary>
+          <div style="color:var(--dim);font-size:0.85rem;line-height:1.6;padding:8px 0 0 16px;">
+            If you see: <em>"Access Tokens cannot be created because an organization requires SSO"</em><br>
+            Use a per-org token instead. Run in your terminal:<br>
+            <code style="color:var(--green);background:var(--bg);padding:2px 6px;border-radius:4px;">flyctl tokens org &lt;your-org-name&gt;</code><br>
+            Then paste the generated token above.
+          </div>
+        </details>
+        <details style="margin-bottom:8px;">
+          <summary style="color:var(--dim);font-size:0.85rem;cursor:pointer;">Deploy failed: image not found</summary>
+          <div style="color:var(--dim);font-size:0.85rem;line-height:1.6;padding:8px 0 0 16px;">
+            The Docker image <code style="color:var(--green);">ghcr.io/librefang/librefang:latest</code> is built on each release.<br>
+            If no release has been published yet, use the terminal deploy script below &mdash; it builds from source.
+          </div>
+        </details>
+        <details>
+          <summary style="color:var(--dim);font-size:0.85rem;cursor:pointer;">How to add or change LLM provider after deploy?</summary>
+          <div style="color:var(--dim);font-size:0.85rem;line-height:1.6;padding:8px 0 0 16px;">
+            <code style="color:var(--green);background:var(--bg);padding:2px 6px;border-radius:4px;">flyctl secrets set OPENAI_API_KEY=sk-... --app your-app-name</code><br>
+            Then edit <code style="color:var(--green);">/data/config.toml</code> via <code style="color:var(--green);">flyctl ssh console</code> to update the default model.
+          </div>
+        </details>
       </div>
     </div>
 
@@ -383,46 +547,6 @@ const HTML = `<!DOCTYPE html>
       </div>
     </div>
 
-    <div class="result" id="result">
-      <div class="result-success">
-        <h2>Deployed!</h2>
-        <p style="color:var(--dim); margin-bottom: 16px;">
-          Your LibreFang instance is starting up (1-2 min).<br>
-          Free LLM (Step 3.5 Flash) is pre-configured and ready to use.
-        </p>
-        <a class="result-link" id="appLink" href="#" target="_blank">Open Dashboard</a>
-        <a class="result-link secondary" id="flyLink" href="#" target="_blank">Fly.io Console</a>
-        <div class="result-info" id="resultInfo"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div style="font-weight:600;margin-bottom:12px;">Troubleshooting</div>
-      <details style="margin-bottom:8px;">
-        <summary style="color:var(--dim);font-size:0.85rem;cursor:pointer;">Cannot create Personal Access Token (SSO error)</summary>
-        <div style="color:var(--dim);font-size:0.85rem;line-height:1.6;padding:8px 0 0 16px;">
-          If you see: <em>"Access Tokens cannot be created because an organization requires SSO"</em><br>
-          Use a per-org token instead. Run in your terminal:<br>
-          <code style="color:var(--green);background:var(--bg);padding:2px 6px;border-radius:4px;">flyctl tokens org &lt;your-org-name&gt;</code><br>
-          Then paste the generated token above.
-        </div>
-      </details>
-      <details style="margin-bottom:8px;">
-        <summary style="color:var(--dim);font-size:0.85rem;cursor:pointer;">Deploy failed: image not found</summary>
-        <div style="color:var(--dim);font-size:0.85rem;line-height:1.6;padding:8px 0 0 16px;">
-          The Docker image <code style="color:var(--green);">ghcr.io/librefang/librefang:latest</code> is built on each release.<br>
-          If no release has been published yet, use the terminal deploy script above &mdash; it builds from source.
-        </div>
-      </details>
-      <details>
-        <summary style="color:var(--dim);font-size:0.85rem;cursor:pointer;">How to add or change LLM provider after deploy?</summary>
-        <div style="color:var(--dim);font-size:0.85rem;line-height:1.6;padding:8px 0 0 16px;">
-          <code style="color:var(--green);background:var(--bg);padding:2px 6px;border-radius:4px;">flyctl secrets set OPENAI_API_KEY=sk-... --app your-app-name</code><br>
-          Then edit <code style="color:var(--green);">/data/config.toml</code> via <code style="color:var(--green);">flyctl ssh console</code> to update the default model.
-        </div>
-      </details>
-    </div>
-
     <div class="footer">
       <a href="https://github.com/librefang/librefang">GitHub</a> &bull;
       <a href="https://librefang.ai">Website</a> &bull;
@@ -432,6 +556,16 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
+    function showFlyDeploy() {
+      document.getElementById('platform-selection').style.display = 'none';
+      document.getElementById('fly-deploy').style.display = 'block';
+    }
+
+    function showPlatforms() {
+      document.getElementById('fly-deploy').style.display = 'none';
+      document.getElementById('platform-selection').style.display = 'block';
+    }
+
     async function deploy() {
       const token = document.getElementById('token').value.trim();
       if (!token) { showError('Please enter your Fly.io API Token.'); return; }
