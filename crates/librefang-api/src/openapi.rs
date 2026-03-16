@@ -248,6 +248,7 @@ use crate::types;
 
         // ── Network / Peers / Comms ──
         routes::list_peers,
+        routes::get_peer,
         routes::network_status,
         routes::comms_topology,
         routes::comms_events,
