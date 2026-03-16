@@ -326,6 +326,7 @@ fn api_v1_routes() -> Router<Arc<AppState>> {
         .route("/audit/verify", axum::routing::get(routes::audit_verify))
         .route("/logs/stream", axum::routing::get(routes::logs_stream))
         .route("/peers", axum::routing::get(routes::list_peers))
+        .route("/peers/{id}", axum::routing::get(routes::get_peer))
         .route(
             "/network/status",
             axum::routing::get(routes::network_status),

@@ -53,6 +53,54 @@ pub async fn list_peers(State(state): State<Arc<AppState>>) -> impl IntoResponse
     }
 }
 
+/// GET /api/peers/{id} — Get a single peer by node ID.
+#[utoipa::path(
+    get,
+    path = "/api/peers/{id}",
+    tag = "network",
+    params(("id" = String, Path, description = "Peer node ID")),
+    responses(
+        (status = 200, description = "Peer details", body = serde_json::Value),
+        (status = 404, description = "Peer not found")
+    )
+)]
+pub async fn get_peer(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<String>,
+) -> impl IntoResponse {
+    let registry = match state.peer_registry {
+        Some(ref r) => r,
+        None => {
+            return (
+                StatusCode::NOT_FOUND,
+                Json(serde_json::json!({"error": "Peer networking is not enabled"})),
+            );
+        }
+    };
+
+    match registry.get_peer(&id) {
+        Some(p) => (
+            StatusCode::OK,
+            Json(serde_json::json!({
+                "node_id": p.node_id,
+                "node_name": p.node_name,
+                "address": p.address.to_string(),
+                "state": format!("{:?}", p.state),
+                "agents": p.agents.iter().map(|a| serde_json::json!({
+                    "id": a.id,
+                    "name": a.name,
+                })).collect::<Vec<_>>(),
+                "connected_at": p.connected_at.to_rfc3339(),
+                "protocol_version": p.protocol_version,
+            })),
+        ),
+        None => (
+            StatusCode::NOT_FOUND,
+            Json(serde_json::json!({"error": "Peer not found"})),
+        ),
+    }
+}
+
 /// GET /api/network/status — OFP network status summary.
 #[utoipa::path(
     get,
